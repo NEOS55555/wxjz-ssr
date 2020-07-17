@@ -1,4 +1,5 @@
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 import { dateForNow } from './index'
 
 function transMap (tempCanvasData) {
@@ -129,6 +130,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	replyArr.forEach(({name, face, content, toname, time}) => {
 		let rpt = toname ? `回复<span class="name">${toname}</span>: ` : ''
 		replyHstr += `
+		crossorigin
 			<div class="reply-item">
 				<img crossOrigin="anonymous" class="avtor" src="${oru}${face}" alt="">
 				<div class="reply-item-content">
@@ -163,8 +165,11 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
-		try {
-		domtoimage.toPixelData(ctnNode, {corsImg: {url: location.origin, method: 'get' }}).then(pixels => {
+		// domtoimage.toPixelData(ctnNode).then(pixels => {
+		html2canvas(ctnNode)
+		.then(canvas => {
+			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
+		}).then(pixels => {
 			// console.log(pixels)
 			// var img = new Image();
 			// img.src = dataUrl;
@@ -231,9 +236,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				// document.body.removeChild(topCanvas)
 		  }
 		});
-		} catch(e) {
-		  alert(e)
-		}
+	
 	}, 1300)
 }
 
