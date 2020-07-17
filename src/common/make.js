@@ -177,10 +177,11 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			
 	    var img = new Image()
 			img.src = targetImg
-			img.crossorigin=''
+			img.crossOrigin=''
 		  img.onload = function () {
 		  	try {
 		  	// console.log(this.width, this.height)
+		  	alert('1')
 				var startTime = new Date().getTime()
 				const maxHeight = this.height
 		  	var canvas = document.createElement("canvas");
@@ -224,6 +225,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				context.putImageData(lastContent, 0, topContent.height + centerContent.height + whiteData.height);
 				console.log('push花费：', new Date().getTime() - startTime3)
 
+		  	alert('5')
 				success && success(canvas);
 		  	} catch(e) {
 		  		alert(e)
