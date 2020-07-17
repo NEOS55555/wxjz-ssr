@@ -240,8 +240,8 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 
 function getImageCb () {
 	const div = document.createElement('div');
-	div.style.position = 'absolute';
-	div.style.left = '-3000px';
+	// div.style.position = 'absolute';
+	// div.style.left = '-3000px';
 	document.body.appendChild(div)
 	return function (o) {
 		getImageData({...o, div})
