@@ -1,0 +1,13 @@
+.all-container {
+	.show-img {
+		width: 100%;
+		max-width: 1080px;
+		&.top-small {
+			width: 20%;
+		}
+	}
+	.img-flex {
+		display: flex;
+		flex-direction: column;
+	}
+}

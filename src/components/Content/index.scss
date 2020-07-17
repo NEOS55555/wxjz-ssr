@@ -1,0 +1,31 @@
+.show-wrapper {
+	width: 1000px;
+	.show-reply-ctn {
+		max-height: 300px;
+		overflow: auto;
+		.show-reply-item {
+			display: flex;
+			.avtor {
+				width: 40px;
+				height: 40px;
+				border-radius: 4px;
+				align-items: flex-start;
+			}
+			.show-reply-item-content {
+				width: 100%;
+				p {
+					padding: 0;
+					margin: 0;
+				}
+				.show-reply-tip {
+					margin-bottom: 5px;
+					display: flex;
+					justify-content: space-between;
+					.name {
+						color: #5B6A94;
+					}
+				}
+			}
+		}
+	}
+}
