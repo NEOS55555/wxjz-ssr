@@ -80,7 +80,7 @@
 .loading {
     display: flex;
     display: none;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -92,6 +92,7 @@
     /*text-transform: uppercase;*/
     justify-content: center;
     align-items: center;
+    z-index: 11;
 }
 .loading span {
     text-shadow: 0 1px #bbb, 0 2px #bbb, 0 3px #bbb, 0 4px #bbb, 0 5px #bbb, 0 6px transparent, 0 7px transparent, 0 8px transparent, 0 9px transparent, 0 10px 10px rgba(0, 0, 0, 0.4);

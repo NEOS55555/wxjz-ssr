@@ -15,33 +15,39 @@ class Homepage extends React.Component {
     return (
       <div >
        <Button onClick={() => {
+          document.querySelector('#loading').style.display = 'flex'
           makeImg({
             avtors: avotrsList,
             replyArr: contentList,
             targetImg: cover,
             success (canvas) {
               document.querySelector('#show-img').src = canvas.toDataURL()
-              // document.body.appendChild(canvas);
+              document.querySelector('#loading').style.display = 'none'
             },
             error () {
               alert('图片有误，不是wx截图')
+              document.querySelector('#loading').style.display = 'none'
             }
           })
         }}>生成自定义</Button>
         <Button onClick={() => {
+          console.log(document.querySelector('#loading'))
+          document.querySelector('#loading').style.display = 'flex'
           makeImg({
             avtors: randAvotrsList,
             replyArr: randContentList,
             targetImg: cover,
             success (canvas) {
               document.querySelector('#show-img').src = canvas.toDataURL()
-              // document.body.appendChild(canvas);
+              document.querySelector('#loading').style.display = 'none'
             },
             error () {
               alert('图片有误，不是wx截图')
+              document.querySelector('#loading').style.display = 'none'
             }
           })
         }}>生成随机</Button>
+        <br/>
         <img id="show-img" className="show-img" alt=""/>
       </div>
     )

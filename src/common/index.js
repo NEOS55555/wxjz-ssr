@@ -13,6 +13,10 @@ export const getBase64 = (file) => {
 function getRand(a, b) {
 	return Math.floor(Math.random() * (b - a) + a)
 }
+function transDate (time) {
+	const date = new Date(time);
+	return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + ` ${addZero(date.getHours())}:${addZero(date.getMinutes())}`
+}
 const dateForNow = date => {
 	date = new Date(date);
 	// 相差的秒数
