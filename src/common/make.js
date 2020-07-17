@@ -179,6 +179,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			img.src = targetImg
 			img.crossorigin=''
 		  img.onload = function () {
+		  	try {
 		  	// console.log(this.width, this.height)
 				var startTime = new Date().getTime()
 				const maxHeight = this.height
@@ -224,6 +225,9 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				console.log('push花费：', new Date().getTime() - startTime3)
 
 				success && success(canvas);
+		  	} catch(e) {
+		  		alert(e)
+		  	}
 		  	// var canvas2 = document.getElementById("canvas2");
 				// document.body.removeChild(topCanvas)
 		  }

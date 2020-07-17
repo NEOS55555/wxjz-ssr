@@ -156,7 +156,7 @@ class HomePage extends Component {
       })
       return;
     }
-    console.log(date.format('yyyy-MM-DD') + ' ' + time.format('HH:mm:ss'))
+    // console.log(date.format('yyyy-MM-DD') + ' ' + time.format('HH:mm:ss'))
     this.props.pushData && this.props.pushData({
       name,
       content,

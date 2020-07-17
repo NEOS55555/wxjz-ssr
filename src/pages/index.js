@@ -32,6 +32,15 @@ class Homepage extends React.Component {
         <p>
           <b className="import">有任何想反馈的可以到<a target="_blank" href="http://uquwang.net/feedback">有趣网</a>反馈</b>
         </p>
+        <div id="loading" class="loading">
+          <span style={{animationDelay: '0s'}} >L</span>
+          <span style={{animationDelay: '0.1s'}} >O</span>
+          <span style={{animationDelay: '0.2s'}} >A</span>
+          <span style={{animationDelay: '0.3s'}} >D</span>
+          <span style={{animationDelay: '0.4s'}} >I</span>
+          <span style={{animationDelay: '0.5s'}} >N</span>
+          <span style={{animationDelay: '0.6s'}} >G</span>
+        </div>
         <Create />
       </div>
     )
