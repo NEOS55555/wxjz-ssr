@@ -32,7 +32,7 @@ class Homepage extends React.Component {
         <p>
           <b className="import">有任何想反馈的可以到<a target="_blank" href="http://uquwang.net/feedback">有趣网</a>反馈</b>
         </p>
-        <div id="loading" class="loading">
+        <div id="loading" className="loading">
           <span style={{animationDelay: '0s'}} >L</span>
           <span style={{animationDelay: '0.1s'}} >O</span>
           <span style={{animationDelay: '0.2s'}} >A</span>
