@@ -118,7 +118,7 @@ replyArr: [{name, face, content, toname}]
 function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error}) {
 	let avtorHstr = '';
 	avtors.forEach(it => {
-		avtorHstr += `<img crossOrigin="" class="avtor" src="${it}" alt="">`
+		avtorHstr += `<img crossOrigin="anonymous" class="avtor" src="${it}" alt="">`
 	})
 	if (!targetImg) {
 		return error && error()
@@ -129,7 +129,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		let rpt = toname ? `回复<span class="name">${toname}</span>: ` : ''
 		replyHstr += `
 			<div class="reply-item">
-				<img crossOrigin="" class="avtor" src="${face}" alt="">
+				<img crossOrigin="anonymous" class="avtor" src="${face}" alt="">
 				<div class="reply-item-content">
 					<p class="reply-tip">
 						<span class="name">${name}</span>
@@ -145,13 +145,13 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		<div class="container">
 			<div class="content">
 				<div class="face-ctn ctn">
-					<img crossOrigin="" class="tip" src="/static/wx/z.png" alt="">
+					<img crossOrigin="anonymous" class="tip" src="/static/wx/z.png" alt="">
 					<div class="face-img">
 						${avtorHstr}
 					</div>
 				</div>
 				<div class="text-ctn ctn">
-					<img crossOrigin="" class="tip" src="/static/wx/x.png" alt="">
+					<img crossOrigin="anonymous" class="tip" src="/static/wx/x.png" alt="">
 					<div class="reply-ctn">
 						${replyHstr}
 					</div>
@@ -177,7 +177,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			
 	    var img = new Image()
 			img.src = targetImg
-			img.crossOrigin=''
+			img.crossOrigin='anonymous'
 		  img.onload = function () {
 		  	try {
 		  	// console.log(this.width, this.height)
