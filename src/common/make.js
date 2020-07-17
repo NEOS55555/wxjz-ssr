@@ -1,4 +1,4 @@
-// import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image';
 import html2canvas from 'html2canvas';
 import { dateForNow } from './index'
 
@@ -162,11 +162,11 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
-		// domtoimage.toPixelData(ctnNode).then(pixels => {
-		html2canvas(ctnNode)
-		.then(canvas => {
+		domtoimage.toPixelData(ctnNode)
+		/*html2canvas(ctnNode).then(canvas => {
 			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
-		}).then(pixels => {
+		})*/
+		.then(pixels => {
 			// console.log(pixels)
 			// var img = new Image();
 			// img.src = dataUrl;
@@ -233,7 +233,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				// document.body.removeChild(topCanvas)
 		  }
 		});
-	
+
 	}, 1300)
 }
 

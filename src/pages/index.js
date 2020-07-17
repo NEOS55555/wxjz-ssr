@@ -11,7 +11,7 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="all-container" >
-        <h1>微信集攒</h1>
+        <h1>微信集攒 <b className="import">暂不支持手机端，请使用谷歌或火狐浏览器</b></h1>
         <p>当然并<b className="import">不是真的</b>点赞，只是<b className="import">用ps修改成你想要的样子。</b></p>
         <p>目前只是随机版玩一玩，自定义头像功能等有空了再开发。</p>
         {/*<p>看使用人数多少，再来决定制作聊天版或者朋友圈版</p>*/}
@@ -22,6 +22,7 @@ class Homepage extends React.Component {
         <p>
           进入详情后，就截图，最好把你发的图带上这样更好看。之后就可以进行配置了。。。
         </p>
+
         <h2>按钮解释：</h2>
         <p>
           生成自定义：<b className="import">用自定义配置生成图片</b>
