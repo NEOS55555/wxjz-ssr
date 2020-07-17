@@ -116,9 +116,10 @@ replyArr: [{name, face, content, toname}]
 
  */
 function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error}) {
+	const oru = location.origin;
 	let avtorHstr = '';
 	avtors.forEach(it => {
-		avtorHstr += `<img crossOrigin="anonymous" class="avtor" src="${it}" alt="">`
+		avtorHstr += `<img crossOrigin="anonymous" class="avtor" src="${oru}${it}" alt="">`
 	})
 	if (!targetImg) {
 		return error && error()
@@ -129,7 +130,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		let rpt = toname ? `回复<span class="name">${toname}</span>: ` : ''
 		replyHstr += `
 			<div class="reply-item">
-				<img crossOrigin="anonymous" class="avtor" src="${face}" alt="">
+				<img crossOrigin="anonymous" class="avtor" src="${oru}${face}" alt="">
 				<div class="reply-item-content">
 					<p class="reply-tip">
 						<span class="name">${name}</span>
@@ -145,13 +146,13 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		<div class="container">
 			<div class="content">
 				<div class="face-ctn ctn">
-					<img crossOrigin="anonymous" class="tip" src="/static/wx/z.png" alt="">
+					<img crossOrigin="anonymous" class="tip" src="${oru}/static/wx/z.png" alt="">
 					<div class="face-img">
 						${avtorHstr}
 					</div>
 				</div>
 				<div class="text-ctn ctn">
-					<img crossOrigin="anonymous" class="tip" src="/static/wx/x.png" alt="">
+					<img crossOrigin="anonymous" class="tip" src="${oru}/static/wx/x.png" alt="">
 					<div class="reply-ctn">
 						${replyHstr}
 					</div>
@@ -162,6 +163,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
+		try {
 		domtoimage.toPixelData(ctnNode, {corsImg: {url: location.origin, method: 'get' }}).then(pixels => {
 			// console.log(pixels)
 			// var img = new Image();
@@ -179,7 +181,6 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			img.src = targetImg
 			img.crossOrigin='anonymous'
 		  img.onload = function () {
-		  	try {
 		  	// console.log(this.width, this.height)
 				var startTime = new Date().getTime()
 				const maxHeight = this.height
@@ -225,21 +226,22 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				console.log('push花费：', new Date().getTime() - startTime3)
 
 				success && success(canvas);
-		  	} catch(e) {
-		  		alert(e)
-		  	}
+		  	
 		  	// var canvas2 = document.getElementById("canvas2");
 				// document.body.removeChild(topCanvas)
 		  }
 		});
+		} catch(e) {
+		  alert(e)
+		}
 	}, 1300)
 }
 
 
 function getImageCb () {
 	const div = document.createElement('div');
-	// div.style.position = 'absolute';
-	// div.style.left = '-3000px';
+	div.style.position = 'absolute';
+	div.style.left = '-3000px';
 	document.body.appendChild(div)
 	return function (o) {
 		getImageData({...o, div})
