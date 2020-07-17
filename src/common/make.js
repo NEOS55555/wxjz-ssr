@@ -162,7 +162,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
-		domtoimage.toPixelData(ctnNode).then(pixels => {
+		domtoimage.toPixelData(ctnNode, {corsImg: {url: location.origin, method: 'get' }}).then(pixels => {
 			// console.log(pixels)
 			// var img = new Image();
 			// img.src = dataUrl;
@@ -181,7 +181,6 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		  img.onload = function () {
 		  	try {
 		  	// console.log(this.width, this.height)
-		  	alert('1')
 				var startTime = new Date().getTime()
 				const maxHeight = this.height
 		  	var canvas = document.createElement("canvas");
@@ -225,7 +224,6 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				context.putImageData(lastContent, 0, topContent.height + centerContent.height + whiteData.height);
 				console.log('push花费：', new Date().getTime() - startTime3)
 
-		  	alert('5')
 				success && success(canvas);
 		  	} catch(e) {
 		  		alert(e)
