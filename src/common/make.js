@@ -165,8 +165,13 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		// domtoimage.toPixelData(ctnNode)
 		html2canvas(ctnNode, { 
 			proxy: location.origin,
-			windowWidth: ctnNode.scrollWidth,
-			windowHeight: ctnNode.scrollHeight,
+			scale: 1,
+			proxy: location.origin,
+			width: ctnNode.scrollWidth,
+			height: ctnNode.scrollHeight,
+			// x: $(ctnNode).offset().left,
+			// y: $(ctnNode).offset().top,
+			useCORS: true,
 		}).then(canvas => {
 			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
 		})
