@@ -10,11 +10,10 @@
 	/>
 	<script src="./dom-to-image.js"></script>
 	<script src="./html2canvas.min.js"></script>
+	<!-- <script src="./jquery.min.js"></script> -->
 </head>
 <body>
-	<div class="wrapper">
-		<div class="canvas-wrapper"></div>
-	</div>
+	
 </body>
 </html>
 <script>
@@ -196,12 +195,18 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	`
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
+
+
 	setTimeout(function () {
 		// domtoimage.toPixelData(ctnNode)
 		html2canvas(ctnNode, { 
+			scale: 1,
 			proxy: location.origin,
-			windowWidth: ctnNode.scrollWidth,
-			windowHeight: ctnNode.scrollHeight,
+			width: ctnNode.scrollWidth,
+			height: ctnNode.scrollHeight,
+			// x: $(ctnNode).offset().left,
+			// y: $(ctnNode).offset().top,
+			useCORS: true,
 		})
 		.then(canvas => {
 			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
@@ -277,11 +282,14 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 }
 
 
+
 function getImageCb () {
 	const div = document.createElement('div');
 	div.style.position = 'absolute';
+
 	div.style.left = '-3000px';
 	document.body.appendChild(div)
+
 	return function (o) {
 		getImageData({...o, div})
 	}
@@ -342,7 +350,7 @@ getImageCanvas({
 	targetImg: './1.jpg',
 	success (canvas) {
 		console.log(new Date().getTime()-startTime)
-		document.querySelector('.canvas-wrapper').appendChild(canvas);
+		document.body.appendChild(canvas);
 	},
 	error () {
 		console.log('图片有误')
