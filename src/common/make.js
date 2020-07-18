@@ -1,5 +1,6 @@
 import domtoimage from 'dom-to-image';
 import html2canvas from 'html2canvas';
+import $ from 'jquery';
 import { dateForNow } from './index'
 
 function transMap (tempCanvasData) {
@@ -169,8 +170,8 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			proxy: location.origin,
 			width: ctnNode.scrollWidth,
 			height: ctnNode.scrollHeight,
-			// x: $(ctnNode).offset().left,
-			// y: $(ctnNode).offset().top,
+			x: $(ctnNode).offset().left,
+			y: $(ctnNode).offset().top,
 			useCORS: true,
 		}).then(canvas => {
 			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
