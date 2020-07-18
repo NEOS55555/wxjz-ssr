@@ -162,10 +162,12 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
-		domtoimage.toPixelData(ctnNode)
-		/*html2canvas(ctnNode).then(canvas => {
-			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
-		})*/
+		// domtoimage.toPixelData(ctnNode)
+		html2canvas(ctnNode, { 
+			proxy: location.origin,
+			windowWidth: ctnNode.scrollWidth,
+			windowHeight: ctnNode.scrollHeight,
+		})
 		.then(pixels => {
 			// console.log(pixels)
 			// var img = new Image();

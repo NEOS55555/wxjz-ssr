@@ -90,7 +90,12 @@
     function toPixelData(node, options) {
         return draw(node, options || {})
             .then(function (canvas) {
-                return canvas
+                return canvas.getContext('2d').getImageData(
+                    0,
+                    0,
+                    util.width(node),
+                    util.height(node)
+                ).data;
             });
     }
 
@@ -149,9 +154,9 @@
             .then(util.makeImage)
             .then(util.delay(100))
             .then(function (image) {
-                /*var canvas = newCanvas(domNode);
-                canvas.getContext('2d').drawImage(image, 0, 0);*/
-                return image;
+                var canvas = newCanvas(domNode);
+                canvas.getContext('2d').drawImage(image, 0, 0);
+                return canvas;
             });
 
         function newCanvas(domNode) {
@@ -450,7 +455,6 @@
                 image.onload = function () {
                     resolve(image);
                 };
-                image.crossOrigin='';
                 image.onerror = reject;
                 image.src = uri;
             });
