@@ -90,12 +90,7 @@
     function toPixelData(node, options) {
         return draw(node, options || {})
             .then(function (canvas) {
-                return canvas.getContext('2d').getImageData(
-                    0,
-                    0,
-                    util.width(node),
-                    util.height(node)
-                ).data;
+                return canvas
             });
     }
 
@@ -154,9 +149,9 @@
             .then(util.makeImage)
             .then(util.delay(100))
             .then(function (image) {
-                var canvas = newCanvas(domNode);
-                canvas.getContext('2d').drawImage(image, 0, 0);
-                return canvas;
+                /*var canvas = newCanvas(domNode);
+                canvas.getContext('2d').drawImage(image, 0, 0);*/
+                return image;
             });
 
         function newCanvas(domNode) {
