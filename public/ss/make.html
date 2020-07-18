@@ -8,6 +8,7 @@
 </head>
 <body>
 	<div id="append-child"></div>
+	搞54宽86
 	<canvas id="canvas" width="1080" height="2248" ></canvas>  
 </body>
 </html>
@@ -165,7 +166,7 @@ function getImageData (avtors=[], replyArr=[]) {
 		  console.log('canvasData ---- ', canvasData)
 			
 	    var img = new Image()
-			img.src = './4.jpg'
+			img.src = './6.jpg'
 			img.crossorigin=''
 		  img.onload = function () {
 		  	// console.log(this.width, this.height)
@@ -177,9 +178,16 @@ function getImageData (avtors=[], replyArr=[]) {
 			  context.drawImage(this, 0, 0, this.width, this.height);
 			  let casData = (context.getImageData(0, 0, canvas.width, canvas.height))
 				const arr = transMap(casData, canvas)
-				const contentStarti = getContent(arr);
+				console.log(arr)
+				let contentStarti = getContent(arr);
 
 				const lastReplyStarti = getContent(arr, contentStarti, true)
+
+				if (contentStarti === lastReplyStarti) {
+					// console.log('到底了，没有开始')
+					contentStarti = getStarti(arr) + 44 + 32;
+				}
+				console.log(contentStarti, lastReplyStarti)
 
 				const topContent = oriTrans(arr.slice(0, contentStarti-1));
 
@@ -215,6 +223,42 @@ function transDate (time) {
 }
 
 
+function getStarti (arr) {
+	for (let i = 0, len = arr.length; i < len; i++) {
+		if (isStartOk(arr, i)) {
+			return i
+		}
+	} 
+}
+
+function isStartOk (arr, i) {
+	const s = 32;
+	const width = 86
+
+	let start = arr[i].length - s - width
+	if (!isWhite(arr[i][start-1]) || !isWhite(arr[i][start+ width+1])) {
+		return false
+	}
+	if (isGre(arr[i][start])) {
+		for (let j = start + 1; j < width; j++) {
+			if (!isGre(arr[i][j])) {
+				return false
+			}
+		}
+	} else {
+		return false;
+	}
+	return i
+}
+function isGre (a) {
+	let f1 = a[0] <= 248 && a[0] >= 248
+	let f2 = a[1] <= 248 && a[1] >= 248
+	let f3 = a[2] <= 248 && a[2] >= 248
+	return f1 && f2 && f3
+}
+function isWhite (a) {
+	return a.join(',') === '255,255,255,255'
+}
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 

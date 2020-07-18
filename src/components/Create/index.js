@@ -52,14 +52,13 @@ class Homepage extends React.Component {
     const { cover } = this.props;
     return (
       <div>
-        
-        <div className="img-flex">
-          <label htmlFor="file" className="ant-btn" >选择图片</label>
-          <img className="show-img top-small" src={cover} alt=""/>
-        </div>
         <div style={{padding: '20px 0'}} >
           <Link href="./diy"><a style={{marginRight: 30}}>自定义配置</a></Link>
           <Link href="./rand"><a>随机配置</a></Link>
+        </div>
+        <div className="img-flex">
+          <label htmlFor="file" className="ant-btn" >选择图片</label>
+          <img className="show-img top-small" src={cover} alt=""/>
         </div>
         <TempComp />
         <input onChange={this.fileChange} ref={this.fileInput} id="file" type="file" style={{display: 'none'}} />

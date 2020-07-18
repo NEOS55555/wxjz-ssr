@@ -379,12 +379,16 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				console.log('初始花费：', new Date().getTime() - startTime)
 
 				var startTime1 = new Date().getTime()
-				const contentStarti = getContentStart(arr);
+				let contentStarti = getContentStart(arr);
 				if (contentStarti === undefined) {
 					return error && error()
 				}
-
 				const lastReplyStarti = getContentStart(arr, contentStarti, true)
+				if (contentStarti === lastReplyStarti) {
+					// console.log('到底了，没有开始')
+					contentStarti = getStarti(arr) + 44 + 32;
+				}
+
 
 				console.log('计算花费：', new Date().getTime() - startTime1)
 
@@ -432,6 +436,44 @@ function getImageCb () {
 	}
 }
 const getImageCanvas = getImageCb();
+
+
+function getStarti (arr) {
+	for (let i = 0, len = arr.length; i < len; i++) {
+		if (isStartOk(arr, i)) {
+			return i
+		}
+	} 
+}
+
+function isStartOk (arr, i) {
+	const s = 32;
+	const width = 86
+
+	let start = arr[i].length - s - width
+	if (!isWhite(arr[i][start-1]) || !isWhite(arr[i][start+ width+1])) {
+		return false
+	}
+	if (isGre(arr[i][start])) {
+		for (let j = start + 1; j < width; j++) {
+			if (!isGre(arr[i][j])) {
+				return false
+			}
+		}
+	} else {
+		return false;
+	}
+	return i
+}
+function isGre (a) {
+	let f1 = a[0] <= 248 && a[0] >= 248
+	let f2 = a[1] <= 248 && a[1] >= 248
+	let f3 = a[2] <= 248 && a[2] >= 248
+	return f1 && f2 && f3
+}
+function isWhite (a) {
+	return a.join(',') === '255,255,255,255'
+}
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
@@ -484,7 +526,7 @@ var startTime = new Date().getTime()
 getImageCanvas({
 	avtors: getRandFace(),
 	replyArr: getRandConent(),
-	targetImg: './1.jpg',
+	targetImg: './6.jpg',
 	success (canvas) {
 		console.log(new Date().getTime()-startTime)
 		document.body.appendChild(canvas);
