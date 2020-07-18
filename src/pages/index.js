@@ -1,6 +1,7 @@
 import React from 'react'
 import Create from '@/components/Create'
 import '@/styles/index.scss'
+import Link from 'next/link'
 
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -23,7 +24,7 @@ class Homepage extends React.Component {
           进入详情后，<b className="import">截图</b>，最好把你发的图带上这样更好看。之后就可以进行配置了。。。
         </p>
         <p>
-          
+          <Link href="/step"><a>点击此处进入说明</a></Link>
         </p>
 
         <h2>按钮解释：</h2>

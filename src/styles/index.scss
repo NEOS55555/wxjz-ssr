@@ -11,3 +11,14 @@
 		flex-direction: column;
 	}
 }
+
+.step-container {
+	padding: 20px;
+	img {
+		max-width: 80%;
+		margin-bottom: 20px;
+	}
+	p {
+		font-weight: bold;
+	}
+}
