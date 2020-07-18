@@ -14,9 +14,6 @@ class Homepage extends React.Component {
         <h1>微信集攒 <b className="import">为了良好的体验，最好使用手机端或pc端的谷歌、火狐</b></h1>
         <p>当然并<b className="import">不是真的</b>点赞，只是<b className="import">用ps修改成你想要的样子。</b></p>
         <p>目前只是随机版玩一玩，自定义头像功能等有空了再开发。</p>
-        <p>
-          <b className="import">暂时只能有评论版的才可使用</b>
-        </p>
         {/*<p>看使用人数多少，再来决定制作聊天版或者朋友圈版</p>*/}
         <h2>使用方法：</h2>
         <p>
