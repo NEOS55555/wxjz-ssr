@@ -167,6 +167,8 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			proxy: location.origin,
 			windowWidth: ctnNode.scrollWidth,
 			windowHeight: ctnNode.scrollHeight,
+		}).then(canvas => {
+			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
 		})
 		.then(pixels => {
 			// console.log(pixels)
