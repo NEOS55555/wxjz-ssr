@@ -450,6 +450,7 @@
                 image.onload = function () {
                     resolve(image);
                 };
+                image.crossOrigin='';
                 image.onerror = reject;
                 image.src = uri;
             });

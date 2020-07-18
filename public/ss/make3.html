@@ -197,18 +197,25 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 	div.innerHTML = html
 	const ctnNode = div.querySelector(".container");
 	setTimeout(function () {
+		try {
 		domtoimage.toPixelData(ctnNode)
 		/*html2canvas(ctnNode)
 		.then(canvas => {
 			return canvas.getContext('2d').getImageData(0, 0, ctnNode.offsetWidth, ctnNode.offsetHeight).data
 		})*/
-		.then(pixels => {
-			alert(pixels)
+		.then(image => {
+			// alert(pixels)
 			// var img = new Image();
 			// img.src = dataUrl;
-			// document.body.appendChild(img)
+			document.body.appendChild(image)
+			var cvs = document.createElement('canvas');
+      cvs.width = ctnNode.offsetWidth;
+      cvs.height = ctnNode.offsetHeight;
+      cvs.getContext('2d').drawImage(image, 0, 0)
+      let pixels = cvs.getContext('2d').getImageData(0, 0, cvs.width, cvs.height)
 			console.log(pixels)
-	    const canvasData = new ImageData(pixels, ctnNode.offsetWidth, ctnNode.offsetHeight)
+	    const canvasData = pixels
+	    // const canvasData = new ImageData(pixels, ctnNode.offsetWidth, ctnNode.offsetHeight)
 	    /*{
 				data: pixels,
 				width: ctnNode.offsetWidth,
@@ -269,6 +276,9 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				// document.body.removeChild(topCanvas)
 		  }
 		});
+		} catch (e) {
+			alert(e)
+		}
 	}, 1300)
 }
 
