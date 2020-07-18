@@ -1,0 +1,158 @@
+<!DOCTYPE html >  
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>电子签名的使用</title>  
+<style type="text/css">  
+body {
+	background: #000
+}
+</style>  
+</head>  
+  
+<body>  
+<canvas id="canvas" ></canvas>  
+<!-- <canvas id="canvas2" width="1080" height="2248" ></canvas>   -->
+  
+<script language="javascript">  
+	const faceWidth = 86;
+
+	function transMap (tempCanvasData) {
+		var arr = [];
+	  var data = tempCanvasData.data;
+    for ( var y = 0; y < tempCanvasData.height; y++) {    
+			for ( var x = 0; x < tempCanvasData.width; x++) {    
+        arr[y] = arr[y] || []
+        let m = (x + y * tempCanvasData.width) * 4
+        /*arr[y].push({
+        	r: data[m],
+        	g: data[m + 1],
+        	b: data[m + 2],
+        	a: data[m + 3],
+        })*/
+        arr[y].push([data[m], data[m+1], data[m+2], data[m+3]])
+      }
+		}
+		return arr;
+	}
+	function oriTrans (mapArr) {
+		let arr = [];
+		let len = mapArr.length;
+		let jlen = mapArr[0].length
+
+		for (let i = 0; i < len; i++) {
+			for (let j = 0; j < jlen; j++) {
+				arr.push(...mapArr[i][j])
+			}
+		}
+		return new ImageData(new Uint8ClampedArray(arr), jlen, len);
+	}
+	function copyImageData (context, src)
+	{
+	    var dst = context.createImageData(src.width, src.height);
+	    dst.data.set(src.data);
+	    return dst;
+	}
+	var img = new Image()
+	img.src = './5.jpg'
+	img.crossorigin=''
+  img.onload = function () {
+  	// console.log(this.width, this.height)
+  	var canvas = document.getElementById("canvas");
+  	canvas.width = this.width
+  	canvas.height = this.height
+	  let context = canvas.getContext("2d");
+	  context.drawImage(this, 0, 0, this.width, this.height);
+	  let canvasData = (context.getImageData(0, 0, canvas.width, canvas.height))
+		// console.log(canvasData)
+
+	  // var tempCanvasData = copyImageData(context, canvasData)
+		const arr = (transMap(canvasData, canvas))
+		const contentStart = getContent(arr);
+
+		const lastReplyStart = getContent(arr, contentStart, true)
+		
+		console.log(lastReplyStart, arr.length)
+
+		let a = oriTrans(arr.slice(lastReplyStart, arr.length));
+		// let a = oriTrans(arr.slice(0, contentStart));
+		console.log(a)
+		context.clearRect(0, 0, this.width, this.height)
+		context.putImageData(a, 0, 0);
+  	// var canvas2 = document.getElementById("canvas2");
+  }
+
+
+  /*var img2 = new Image()
+	img2.src = './1.jpg'
+	img2.crossorigin=''
+  img2.onload = function () {
+  	// console.log(this.width, this.height)
+  	var canvas = document.getElementById("canvas2");
+	  let context = canvas.getContext("2d");
+	  context.drawImage(this, 0, 0, this.width, this.height);
+	  // let canvasData = (context.getImageData(0, 0, canvas.width, canvas.height))
+		// console.log(canvasData)
+
+	 	// var tempCanvasData = copyImageData(context, canvasData);
+	 	// console.log(tempCanvasData)
+		// const arr = (transMap(tempCanvasData))
+		// console.log(arr, getContent(arr))
+
+
+		 for ( var x = 1; x < tempCanvasData.width-1; x++) {    
+      for ( var y = 1; y < tempCanvasData.height-1; y++) {    
+        // Index of the pixel in the array    
+        var idx = (x + y * tempCanvasData.width) * 4;       
+				var bidx = ((x-1) + y * tempCanvasData.width) * 4;
+				var aidx = ((x+1) + y * tempCanvasData.width) * 4;
+        
+        // calculate new RGB value
+        var nr = tempCanvasData.data[aidx + 0] - tempCanvasData.data[bidx + 0] + 128;
+        var ng = tempCanvasData.data[aidx + 1] - tempCanvasData.data[bidx + 1] + 128;
+        var nb = tempCanvasData.data[aidx + 2] - tempCanvasData.data[bidx + 2] + 128;
+        nr = (nr < 0) ? 0 : ((nr >255) ? 255 : nr);
+        ng = (ng < 0) ? 0 : ((ng >255) ? 255 : ng);
+        nb = (nb < 0) ? 0 : ((nb >255) ? 255 : nb);
+        
+        // assign new pixel value    
+        canvasData.data[idx + 0] = nr; // Red channel    
+        canvasData.data[idx + 1] = ng; // Green channel    
+        canvasData.data[idx + 2] = nb; // Blue channel    
+        canvasData.data[idx + 3] = 255; // Alpha channel    
+      }
+		}
+		context.putImageData(canvasData, 0, 0);
+  }*/
+
+
+function getContent (temp1, starti=0, from0) {
+	for (let i = starti; i < temp1.length; i++) {
+		if (isook(temp1, i, from0) && isook(temp1, i + 1, from0)) {
+			return i
+		}
+	}
+}
+
+function isook (arr, i, from0) {
+	const s = from0 ? 0 : 40;
+	if (isOk(arr[i][s])) {
+		for (let j = s+1; j < arr[i].length - s; j++) {
+			if (!isOk(arr[i][j])) {
+				return false
+			}
+		}
+	} else {
+		return false;
+	}
+
+	return i
+}
+
+function isOk (a) {
+	return a.join(',') === '247,247,247,255'
+}
+</script>  
+  
+</body>  
+</html>  
