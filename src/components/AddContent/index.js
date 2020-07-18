@@ -4,8 +4,7 @@ import moment from 'moment';
 import { Input, Button, DatePicker, TimePicker, Popover } from 'antd'
 import { pushData } from '@/store/actions'
 import { MAX_IMG_SIZE, MAX_IMG_M, faceArr, faceStaticUrl } from '@/constants'
-import { getBase64, getRand, dateForNow } from '@/common'
-import getName from '@/common/getName'
+import { getBase64, getRand, dateForNow, getName, getRandComTxt } from '@/common'
 
 const timeFormat = 'HH:mm';
 
@@ -25,10 +24,6 @@ const getRandTime = () => {
   return new Date(a - getRand(3, 3600 * 24) * 1000)
 }
 
-const contentText = ['牛逼！！！！！', '6666666666666666', '鼓掌！', '大佬，教我', '好看啊！', '吃饭了没', '你这是哪？', '。。。。。。。', '你是真的6p。', '看着好美味！', '好无聊啊aaaaaaa！！！', '傻乎乎的。。。']
-
-
-
 
 class HomePage extends Component {
   constructor (props) {
@@ -47,7 +42,7 @@ class HomePage extends Component {
 
     return ({
       name: isRand ? getName() : '',
-      content: isRand ? contentText[getRand(0, contentText.length)] : '',
+      content: isRand ? getRandComTxt() : '',
       face: isRand ? faceStaticUrl + faceArr[getRand(0, faceArr.length)] : null,
       toname,
       date: moment(ddd),

@@ -3,6 +3,7 @@ import makeImg from '@/common/make'
 import { Button } from 'antd'
 import {connect} from 'react-redux'
 import './make.css'
+import { getRandFace, getRandComments, getRand } from '@/common'
 
 
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -31,11 +32,10 @@ class Homepage extends React.Component {
           })
         }}>生成自定义</Button>
         <Button onClick={() => {
-          console.log(document.querySelector('#loading'))
           document.querySelector('#loading').style.display = 'flex'
           makeImg({
-            avtors: randAvotrsList,
-            replyArr: randContentList,
+            avtors: randAvotrsList.length === 0 ? getRandFace(getRand(10, 40)) : randAvotrsList,
+            replyArr: randContentList.length === 0 ? getRandComments() : randContentList,
             targetImg: cover,
             success (canvas) {
               document.querySelector('#show-img').src = canvas.toDataURL()

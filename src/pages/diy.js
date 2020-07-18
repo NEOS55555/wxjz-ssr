@@ -6,17 +6,9 @@ import { pushData, updateData } from '@/store/actions'
 import {connect} from 'react-redux'
 import { faceArr, faceStaticUrl } from '@/constants'
 import Comment from '@/components/Comment'
-import { getRand } from '@/common'
+import { getRandFace } from '@/common'
 import Link from 'next/link'
 
-const getRandFace = (len) => {
-  let a = faceArr.slice();
-  let arr = [];
-  for (let i = 0; i < len; i++) {
-    arr.push(faceStaticUrl + a.splice(getRand(0, a.length), 1)[0])
-  }
-  return arr;
-}
 
 class Homepage extends React.Component {
   state = {
