@@ -121,7 +121,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 		avtorHstr += `<img crossOrigin="anonymous" class="avtor" src="${oru}${it}" alt="">`
 	})
 	if (!targetImg) {
-		return error && error()
+		return error && error('请选择截图')
 	}
 	
 	let replyHstr = '';
@@ -141,27 +141,31 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 			</div>
 		`
 	})
-
-	const html = `
-		<div class="container">
-			<div class="content">
-				<div class="face-ctn ctn">
+	/*if (avtors.length === 0) {
+		return error && error('点赞头像不能为空');
+	}*/
+	const astr = avtorHstr ? `<div class="face-ctn ctn">
 					<img crossOrigin="anonymous" class="tip" src="${oru}/static/wx/z.png" alt="">
 					<div class="face-img">
 						${avtorHstr}
 					</div>
-				</div>
-				<div class="text-ctn ctn">
+				</div>` : ''
+	const rstr = replyHstr ? `<div class="text-ctn ctn">
 					<img crossOrigin="anonymous" class="tip" src="${oru}/static/wx/x.png" alt="">
 					<div class="reply-ctn">
 						${replyHstr}
 					</div>
-				</div>
+				</div>` : ''
+	const html = `
+		<div class="wx-container">
+			<div class="content">
+				${astr}
+				${rstr}
 			</div>
 		</div>
 	`
 	div.innerHTML = html
-	const ctnNode = div.querySelector(".container");
+	const ctnNode = div.querySelector(".wx-container");
 	setTimeout(function () {
 		// domtoimage.toPixelData(ctnNode)
 		html2canvas(ctnNode, { 
@@ -208,7 +212,7 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 				var startTime1 = new Date().getTime()
 				let contentStarti = getContentStart(arr);
 				if (contentStarti === undefined) {
-					return error && error()
+					return error && error('不是微信截图')
 				}
 				const lastReplyStarti = getContentStart(arr, contentStarti, true)
 				if (contentStarti === lastReplyStarti) {

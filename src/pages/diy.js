@@ -16,32 +16,28 @@ class Homepage extends React.Component {
   }
   render() {
     const { avtorNum } = this.state;
-    const { contentList, updateData, pushData } = this.props;
+    const { updateData } = this.props;
     return (
       <div>
       
         <div>
-          头像个数:{avtorNum} <Slider min={5} defaultValue={avtorNum} onChange={avtorNum => this.setState({avtorNum})} />
+          点赞头像个数:{avtorNum} <Slider min={5} defaultValue={avtorNum} onChange={avtorNum => this.setState({avtorNum})} />
         </div>
-        <div>
-          添加评论内容
-          <AddContent list={contentList} pushData={pushData} ></AddContent>
-        </div>
-        <div>
-          评论
-          <Comment list={contentList} ></Comment>
-        </div>
-        <Link href="/"><a className="ant-btn" onClick={()=> updateData({type: 1, avotrsList: getRandFace(avtorNum)})} >保存并返回</a></Link>
+        <AddContent />
+        <Comment />
+        <Link href="/">
+          <a className="ant-btn" onClick={()=> updateData({avotrsList: getRandFace(avtorNum)})} >保存并返回</a>
+        </Link>
       </div>
     )
   }
 }
-const mapStateToProps = state => {
+/*const mapStateToProps = state => {
   const { contentList } = state.reducer;
   return {
     contentList
   };
-};
+};*/
 const mapDispatchToProps = dispatch => {
   return {
     pushData (params) {
@@ -53,4 +49,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Homepage)
+export default connect(null, mapDispatchToProps)(Homepage)

@@ -12,27 +12,37 @@ export const getBase64 = (file) => {
     reader.onerror = error => reject(error);
   });
 }
+let id = 0;
+const getID = () => {
+	return id++;
+}
 function addZero (t) {
 	return t < 10 ? '0' + t : t;
 }
 function getRand(a, b) {
 	return Math.floor(Math.random() * (b - a) + a)
 }
-function transDate (time) {
+function transDate (time, onlyTime) {
 	const date = new Date(time);
-	return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + ` ${addZero(date.getHours())}:${addZero(date.getMinutes())}`
+	let timenow = addZero(date.getHours()) + ':' + addZero(date.getMinutes())
+	if (onlyTime) {
+		return timenow
+	}
+	return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + ' ' + timenow
 }
 const dateForNow = date => {
 	date = new Date(date);
+	let xds = new Date().getDate() - date.getDate()
+	let isYesterday = xds === 1;
 	// 相差的秒数
 	const xs = (new Date().getTime() - date.getTime()) / 1000
 	const xm = xs / 60 
 	const xh = xm / 60
 	const xd = xh / 24;
-	if (xd > 7) {
+	if (xds > 1) {
 		return transDate(date);
-	} else if (xd >= 1) {
-		return Math.floor(xd) + '天前'
+	} else if (isYesterday) {
+		return `昨天 ` + transDate(date, true)
 	} else if (xh >= 1) {
 		return Math.floor(xh) + '小时前'
 	} else if (xm >= 1) {
@@ -59,8 +69,8 @@ const getRandOneComment = () => {
       name: getName(),
       content: getRandComTxt(),
       face: faceStaticUrl + faceArr[getRand(0, faceArr.length)],
-      time: dateForNow(getRandDate())
-      
+      time: dateForNow(getRandDate()),
+      id: getID(),
 	}
 }
 
@@ -81,6 +91,8 @@ const getRandFace = (len) => {
   return arr;
 }
 
+
+
 export {
 	getName,
 	getRand,
@@ -89,4 +101,5 @@ export {
 	getRandComments,
 	getRandComTxt,
 	getRandFace,
+	getID,
 }

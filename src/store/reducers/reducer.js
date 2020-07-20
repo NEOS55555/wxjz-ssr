@@ -4,8 +4,6 @@ const initState = {
   cover: null,
   contentList: [],
   avotrsList: [],
-  randContentList: [],
-  randAvotrsList: [],
 
   type: 0,  // 0自定义 1随机
 };
@@ -23,11 +21,6 @@ export default (state = initState, {type, data}) => {
         contentList: [...state.contentList, data]
       }
    
-    case PUSH_RAND_DATA2LIST:
-      return {
-        ...state,
-        randContentList: [...state.randContentList, data]
-      }
    
     case CHANGE_TYPE:
       return {

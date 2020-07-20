@@ -175,64 +175,22 @@ class HomePage extends Component {
   }
   render () {
     const { name, content, face, toname, date, time, imgError, nameError, contentError } = this.state;
-    return (
-      <div>
-        <p>添加评论内容</p>
-        <div className="self-wrapper">
-          <div className="self-line must">
-            <label className="prev-label">名称</label>
-            <div className="self-line-ctn-wp">
-              <Input onChange={this.nameChange} value={name} placeholder="名称" />
-              {
-                // nameError !== -1 && <p className="error-tip">请填写名称</p>
-              }
-            </div>
-          </div>
-          <div className="self-line must">
-            <label className="prev-label">评论</label>
-            <div className="self-line-ctn-wp">
-              <Input onChange={this.contentChange} value={content} placeholder="评论内容" />
-              {
-                // contentError !== -1 && <p className="error-tip">请填写评论内容</p>
-              }
-            </div>
-          </div>
-          <div className="self-line must">
-            <label className="prev-label">图片</label>
-            <div className="self-text-wrapper">
-              <input ref={this.fileInput} id="uploadImg" type="file" style={{display: 'none'}} onChange={this.fileChange} accept="image/*"/>
-              <label htmlFor="uploadImg" className="img-ctn">
-                <img src={ face || defaultImg } alt=""/>
-              </label>
-              <div>{siteImgTip}</div>
-              {
-                // imgError !== -1 && <p className="error-tip">{siteImgErrorText[imgError]}</p>
-              }
-            </div>
-          </div>
-          <div className="self-line must">
-            <label className="prev-label">时间</label>
-            <div className="self-line-ctn-wp">
-              <DatePicker value={date} onChange={this.dateChange} />
-              <TimePicker
-                onChange={this.timeChange}
-                value={time}
-                format={timeFormat}
-              />
-            </div>
-          </div>
-          <div className="self-line">
-            <label className="prev-label">对谁评论</label>
-            <div className="self-line-ctn-wp">
-              <Input onChange={this.tonameChange} value={toname} placeholder="名称" />
-            </div>
-          </div>
-          
-          <Button onClick={this.onSure}>添加一条评论</Button>
-          <Button onClick={this.onRandSure}>随机添加一条评论</Button>
+    return <div className="self-wrapper">
+      <div className="self-line must">
+        <label className="prev-label">图片</label>
+        <div className="self-text-wrapper">
+          <input ref={this.fileInput} id="uploadImg" type="file" style={{display: 'none'}} onChange={this.fileChange} accept="image/*"/>
+          <label htmlFor="uploadImg" className="img-ctn">
+            <img src={ face || defaultImg } alt=""/>
+          </label>
+          <div>{siteImgTip}</div>
         </div>
       </div>
-    )
+     
+      
+      <Button onClick={this.onSure}>添加头像</Button>
+      <Button onClick={this.onRandSure}>随机添加一张头像</Button>
+    </div>
   }
 }
 

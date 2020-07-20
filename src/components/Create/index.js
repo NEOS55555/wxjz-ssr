@@ -52,12 +52,12 @@ class Homepage extends React.Component {
     const { cover } = this.props;
     return (
       <div>
-        <div style={{padding: '20px 0'}} >
-          <Link href="./diy"><a style={{marginRight: 30}}>自定义配置</a></Link>
-          <Link href="./rand"><a>随机配置</a></Link>
+        <div style={{paddingBottom: 20}} >
+          <Link href="./diy"><a className="ant-btn">配置</a></Link>
+          {/*<Link href="./rand"><a>随机配置</a></Link>*/}
         </div>
         <div className="img-flex">
-          <label htmlFor="file" className="ant-btn" >选择图片</label>
+          <label htmlFor="file" className="ant-btn" >上传截图</label>
           <img className="show-img top-small" src={cover} alt=""/>
         </div>
         <TempComp />

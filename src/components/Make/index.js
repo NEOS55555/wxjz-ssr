@@ -2,7 +2,6 @@ import React, { createRef } from 'react'
 import makeImg from '@/common/make'
 import { Button } from 'antd'
 import {connect} from 'react-redux'
-import './make.css'
 import { getRandFace, getRandComments, getRand } from '@/common'
 
 
@@ -12,41 +11,41 @@ import { getRandFace, getRandComments, getRand } from '@/common'
 class Homepage extends React.Component {
  
   render() {
-    const { cover, contentList, avotrsList, randContentList, randAvotrsList } = this.props;
+    const { cover, contentList, avotrsList } = this.props;
     return (
-      <div >
+      <div style={{padding: '20px 0'}}>
        <Button onClick={() => {
           document.querySelector('#loading').style.display = 'flex'
           makeImg({
-            avtors: avotrsList,
+            avtors: avotrsList.length === 0 ? getRandFace(getRand(10, 40)) : avotrsList,
             replyArr: contentList,
             targetImg: cover,
             success (canvas) {
               document.querySelector('#show-img').src = canvas.toDataURL()
               document.querySelector('#loading').style.display = 'none'
             },
-            error () {
-              alert('图片有误，不是wx截图')
+            error (msg) {
+              alert(msg)
               document.querySelector('#loading').style.display = 'none'
             }
           })
-        }}>生成自定义</Button>
+        }}>生成配置图片</Button>
         <Button onClick={() => {
           document.querySelector('#loading').style.display = 'flex'
           makeImg({
-            avtors: randAvotrsList.length === 0 ? getRandFace(getRand(10, 40)) : randAvotrsList,
-            replyArr: randContentList.length === 0 ? getRandComments() : randContentList,
+            avtors: getRandFace(getRand(10, 40)),
+            replyArr: getRandComments(),
             targetImg: cover,
             success (canvas) {
               document.querySelector('#show-img').src = canvas.toDataURL()
               document.querySelector('#loading').style.display = 'none'
             },
-            error () {
-              alert('图片有误，不是wx截图')
+            error (msg) {
+              alert(msg)
               document.querySelector('#loading').style.display = 'none'
             }
           })
-        }}>生成随机</Button>
+        }}>随机生成</Button>
         <br/>
         <img id="show-img" className="show-img" alt=""/>
       </div>
