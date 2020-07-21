@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import makeImg from '@/common/make'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import {connect} from 'react-redux'
 import { getRandFace, getRandComments, getRand } from '@/common'
 
@@ -25,7 +25,7 @@ class Homepage extends React.Component {
               document.querySelector('#loading').style.display = 'none'
             },
             error (msg) {
-              alert(msg)
+              message.error(msg)
               document.querySelector('#loading').style.display = 'none'
             }
           })
@@ -41,7 +41,7 @@ class Homepage extends React.Component {
               document.querySelector('#loading').style.display = 'none'
             },
             error (msg) {
-              alert(msg)
+              message.error(msg)
               document.querySelector('#loading').style.display = 'none'
             }
           })

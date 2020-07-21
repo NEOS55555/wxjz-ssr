@@ -1,4 +1,4 @@
-import { PUSH_DATA2LIST, PUSH_RAND_DATA2LIST, CHANGE_TYPE, UPDATE_DATA } from '../constants'
+import { PUSH_DATA2LIST, PUSH_AVTOR2LIST, UPDATE_DATA } from '../constants'
 
 function pushData (data) {
 	return {
@@ -6,19 +6,13 @@ function pushData (data) {
 		data
 	}
 }
+function pushAvtor (data) {
+	return {
+		type: PUSH_AVTOR2LIST,
+		data
+	}
+}
 
-function pushRandData (data) {
-	return {
-		type: PUSH_RAND_DATA2LIST,
-		data
-	}
-}
-function changeType (data) {
-	return {
-		type: CHANGE_TYPE,
-		data
-	}
-}
 
 function updateData (data) {
 	return {
@@ -30,7 +24,6 @@ function updateData (data) {
 
 export {
 	pushData,
-	pushRandData,
-	changeType,
+	pushAvtor,
 	updateData,
 }

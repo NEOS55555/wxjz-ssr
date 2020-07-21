@@ -12,7 +12,7 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="all-container" >
-        <h1>微信集攒 </h1>
+        <h1>微信集攒-集赞活动的必需品</h1>
         <p>当然并<b className="import">不是真的</b>点赞，只是<b className="import">用ps修改成你想要的样子。</b></p>
         {/*<p>看使用人数多少，再来决定制作聊天版或者朋友圈版</p>*/}
         <h2>使用方法：</h2>

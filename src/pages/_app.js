@@ -15,7 +15,7 @@ export default function MyApp({ Component, pageProps }) {
         	name="viewport" 
       		content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" 
       	/>
-        <title>微信集赞❥(^_-)</title>
+        <title>微信集赞❥(^_-)-集赞活动的必需品</title>
         {/*<meta name="viewport" content="" />*/}
       </Head>
 			<div className="flex-wrapper">

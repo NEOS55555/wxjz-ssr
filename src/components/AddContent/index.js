@@ -1,19 +1,14 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import moment from 'moment';
 import { Input, Button, DatePicker, TimePicker, message } from 'antd'
-import { MAX_IMG_SIZE, MAX_IMG_M } from '@/constants'
-import { getBase64, getRand, dateForNow, getRandOneComment, getRandFace, getID } from '@/common'
+import { siteImgErrorText } from '@/constants'
+import { getRand, dateForNow, getRandOneComment, getRandFace, getID } from '@/common'
 import { pushData, updateData } from '@/store/actions'
+import ImgFile from '@/comComp/ImgFile'
 
 const timeFormat = 'HH:mm';
 
-const BILI = 0.9;
-const siteImgTip = `点击图片进行添加，最大${MAX_IMG_M}M；宽高比最好 1 : 1，比例最小1 : ${BILI}`
-
-const defaultImg = '/static/face.png'
-
-const siteImgErrorText = ['请选择图片', '图片大小不对', '图片比例不对'];
 
 /*const getRandDate = () => {
   let a = new Date().getTime();
@@ -48,71 +43,20 @@ class HomePage extends Component {
       date: moment(),
       time: moment(),
       nameError: -1,
-      contentError: -1,
       imgError: -1,
+      contentError: -1,
     })
   }
-  fileInput = createRef();
 
   nameChange = e => this.setState({name: e.target.value})
   tonameChange = e => this.setState({toname: e.target.value})
   contentChange = e => this.setState({content: e.target.value})
 
-  checkImg (file) {
-    let flag = -1;
-    if (file.size > MAX_IMG_SIZE) {
-      flag = 1
-    } else if (file.type.indexOf('image') === -1) {
-      flag = 0
-    }
-    return flag;
-  }
 
-  fileChange = e => {
-    let files;
-    if (e.dataTransfer) {
-      files = e.dataTransfer.files;
-    } else if (e.target) {
-      files = e.target.files;
-    }
-    const [file] = files
-    const imgError = this.checkImg(file);
-    if (imgError !== -1) {
-      this.setState({
-        imgError
-      })
-      message.error(siteImgErrorText[imgError])
-      return;
-    }
-
-    
-    getBase64(file).then(res => {
-      // console.log(res)
-      let img = new Image();
-      img.src = res;
-      img.onload = () => {
-        let w = img.width, h = img.height;
-        let b = w/h;
-        if (b < BILI || b > 1 / BILI) {
-          this.setState({
-            imgError: 2
-          })
-          img = null;
-          message.error(siteImgErrorText[2])
-          return ;
-        }
-        this.setState({
-          face: res,
-          imgError: -1,
-        })
-        this.fileInput.current.setAttribute('type', 'text');
-        this.fileInput.current.setAttribute('type', 'file');
-        img = null;
-      }
-      
+  fileChange = res => {
+    this.setState({
+      face: res,
     })
-    // console.log(this.fileInput)
-    
   }
 
   dateChange = (date) => {
@@ -128,10 +72,11 @@ class HomePage extends Component {
     })
   }
   onRandSure = () => {
-    this.props.pushData(getRandOneComment(this.props.contentList))
+    this.props.pushData(getRandOneComment(/*this.props.contentList*/))
   }
   onSure = () => {
     const { name, content, face, toname, date, time, imgError } = this.state;
+    console.log(imgError)
     if (imgError !== -1) {
       message.error(siteImgErrorText[imgError])
       return;
@@ -174,7 +119,7 @@ class HomePage extends Component {
     // console.log('s')
   }
   render () {
-    const { name, content, face, toname, date, time, imgError, nameError, contentError } = this.state;
+    const { name, content, face, toname, date, time, nameError, contentError } = this.state;
     return (
       <div>
         <p>添加评论内容</p>
@@ -197,19 +142,7 @@ class HomePage extends Component {
               }
             </div>
           </div>
-          <div className="self-line must">
-            <label className="prev-label">图片</label>
-            <div className="self-text-wrapper">
-              <input ref={this.fileInput} id="uploadImg" type="file" style={{display: 'none'}} onChange={this.fileChange} accept="image/*"/>
-              <label htmlFor="uploadImg" className="img-ctn">
-                <img src={ face || defaultImg } alt=""/>
-              </label>
-              <div>{siteImgTip}</div>
-              {
-                // imgError !== -1 && <p className="error-tip">{siteImgErrorText[imgError]}</p>
-              }
-            </div>
-          </div>
+          <ImgFile value={face} onChange={this.fileChange} onError={imgError => this.setState({imgError})} />
           <div className="self-line must">
             <label className="prev-label">时间</label>
             <div className="self-line-ctn-wp">
@@ -237,12 +170,12 @@ class HomePage extends Component {
 }
 
 
-const mapStateToProps = state => {
+/*const mapStateToProps = state => {
   const { contentList } = state.reducer;
   return {
     contentList
   };
-};
+};*/
 const mapDispatchToProps = dispatch => {
   return {
     pushData (params) {
@@ -256,4 +189,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(null, mapDispatchToProps)(HomePage)

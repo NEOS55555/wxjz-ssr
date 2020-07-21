@@ -1,11 +1,9 @@
-import { PUSH_DATA2LIST, PUSH_RAND_DATA2LIST, CHANGE_TYPE, UPDATE_DATA } from '../../constants'
+import { PUSH_DATA2LIST, PUSH_AVTOR2LIST, UPDATE_DATA } from '../../constants'
 
 const initState = {
   cover: null,
   contentList: [],
   avotrsList: [],
-
-  type: 0,  // 0自定义 1随机
 };
 
 export default (state = initState, {type, data}) => {
@@ -20,12 +18,10 @@ export default (state = initState, {type, data}) => {
         ...state,
         contentList: [...state.contentList, data]
       }
-   
-   
-    case CHANGE_TYPE:
+    case PUSH_AVTOR2LIST:
       return {
         ...state,
-        type: data
+        avotrsList: [...state.avotrsList, data]
       }
    
     default:
