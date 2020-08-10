@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const next = require('next');
-const router = require('./router');
+// const router = require('./router');
 // const { PORT } = require('../next.config')
 const dev =  process.env.NODE_ENV !== 'production';
 const PORT = 4567
@@ -25,7 +25,7 @@ app.prepare()
     // server.use(bodyParser.json({limit: '2mb'}));
     // server.use(bodyParser.urlencoded({limit: '2mb', extended:false}));
     // 路由中间件
-    server.use('/api', router); // 添加router中间件
+    // server.use('/api', router); // 添加router中间件
 
     server.get('/', (req, res) => {
       return app.render(req, res, '/index');
