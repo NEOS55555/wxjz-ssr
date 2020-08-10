@@ -1,5 +1,5 @@
 const express = require('express');
-const test = require('./test')
+const test = require('./api')
 
 // 注册路由
 const router = express.Router();
@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use('/test', test);
+router.use('/api', api);
 
 // 处理 404 
 router.use((req, res, next) => {
