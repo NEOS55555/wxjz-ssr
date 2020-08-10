@@ -1,5 +1,5 @@
 const express = require('express');
-const test = require('./api')
+const api = require('./api')
 
 // 注册路由
 const router = express.Router();
