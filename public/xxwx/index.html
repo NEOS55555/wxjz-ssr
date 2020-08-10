@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.img-ctn {
+			width: 1080px;
+			height: 2107px;
+			background-image: url(./1.png);
+			position: relative;
+		}
+		.info {
+			position: absolute;
+			left: 80px;
+			top: 192px;
+		}
+		.info ul li {
+			font-size: 44px;
+			font-weight: 700;
+			line-height: 1;
+			margin-bottom: 22px;
+			color: #000000;
+			font-family: -webkit-pictograph;
+		}
+
+		.time {
+			position: absolute;
+			/*top: 456px;*/
+			top: 476px;
+			left: 0;
+			width: 100%;
+		}
+		.time p {
+			font-size: 96px;
+			line-height: 1;
+			font-weight: 700;
+			text-align: center;
+			font-family: -webkit-pictograph;
+		}
+	</style>
+</head>
+<body>
+	<div class="img-ctn">
+		<div class="info">
+			<ul>
+				<li>姓名：<span id="name">张鑫</span></li>
+				<li>学院：<span id="school">软件学院</span></li>
+				<li>班级：<span id="class">2018</span></li>
+			</ul>
+		</div>
+		<div class="time">
+			<p id="time1">8月10日</p>
+			<p id="time2">12:37:51</p>
+		</div>
+	</div>
+<script>
+function addZero (a) {
+	return a < 10 ? '0' + a : a
+}
+const $ = a => document.querySelector(a)
+function trans () {
+	const date = new Date();
+	$('#time1').innerHTML = (date.getMonth() + 1) + '月' + date.getDate() + '日'
+	$('#time2').innerHTML = addZero(date.getHours())+':'+addZero(date.getMinutes())+':'+addZero(date.getSeconds())
+}
+
+const nameNode = $('#name')
+const schoolNode = $('#school')
+const classNode = $('#class')
+
+trans()
+setInterval(function () {
+	trans()
+}, 1000)
+
+</script>
+</body>
+</html>

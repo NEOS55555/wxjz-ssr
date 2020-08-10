@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		.icon {
+			display: inline-block;
+			background-image: url(./biaoqing.png);
+			width: 50px;
+			height: 50px;
+			background-position: -13px 0;
+		}
+	</style>
+</head>
+<body>
+	<!-- <span class="icon"></span> -->
+	<canvas id="canvas" width="1080" height="2248" ></canvas>  
+</body>
+</html>
+<script>
+	function isC (a) {
+		return a >=242 && a <= 250
+	}
+	function transMap (tempCanvasData) {
+		var arr = [];
+	  var data = tempCanvasData.data;
+	  for ( var y = 0; y < tempCanvasData.height; y++) {    
+			for ( var x = 0; x < tempCanvasData.width; x++) {    
+	      arr[y] = arr[y] || []
+	      let m = (x + y * tempCanvasData.width) * 4
+	      /*arr[y].push({
+	      	r: data[m],
+	      	g: data[m + 1],
+	      	b: data[m + 2],
+	      	a: data[m + 3],
+	      })*/
+	      arr[y].push([data[m], data[m+1], data[m+2], data[m+3]])
+	    }
+		}
+		return arr;
+	}
+
+
+	var img = new Image()
+	img.src = './biaoqing.png';
+	img.onload = function () {
+		var canvas = document.getElementById("canvas");
+  	canvas.width = this.width
+		canvas.height = this.height
+	  let context = canvas.getContext("2d");
+	  context.drawImage(this, 0, 0, this.width, this.height);
+	  let imgData = context.getImageData(0, 0, this.width, this.height)
+	  let cpData = [].slice.call(imgData.data)
+	  for (let i = 0, len = imgData.width * imgData.height; i < len; i++) {
+	  	let c1 = cpData[i*4+0]
+	  	let c2 = cpData[i*4+1]
+	  	let c3 = cpData[i*4+2]
+
+	  	if ((isC(c1) && isC(c2) && isC(c3)) && cpData[i*4+3] === 255) {
+				cpData[i*4+3] = 0
+	  	}
+	  }
+	  const newImgData = new ImageData(new Uint8ClampedArray(cpData), this.width, this.height)
+	
+		context.putImageData(newImgData, 0, 0);
+
+		const isOk = a => {
+			return !!a[3]
+		}
+		const linkSum = (i,j,arr)=>{
+	    //走过的路就置0
+	    arr[i] = arr[i] || [];
+	    arr[i][j] = temp1[i][j]
+	    temp1[i][j] = [];
+	    //向上
+	    if((i+1 < temp1.length) && isOk(temp1[i+1][j])){
+	      arr = linkSum(i+1 , j , arr);
+	    }
+	    //向下
+	    if((j+1 < temp1[0].length) && isOk(temp1[i][j+1])){
+	      arr = linkSum(i , j+1 , arr);
+	    }
+	    //向左
+	    if((i-1 >= 0) && isOk(temp1[i-1][j])){
+	      arr = linkSum(i-1 , j , arr);
+	    }
+	      //向右
+	    if((j-1 >= 0) && isOk(temp1[i][j-1])){
+	      arr = linkSum(i , j-1 , arr);
+	    }
+
+	    return arr;
+		}
+		const getCountAndArea = () =>{
+	    let sum = [];
+	    let count = 0;
+	    for(let i = 0; i < temp1.length; i++)  //遍历二维数组
+	    {
+	      for(let j = 0; j < temp1[0].length; j++)
+	      {
+	       //连续1的个数
+	       if(isOk(temp1[i][j]))
+	       {
+	        let buf = [];  //连续1的个数
+	        buf = linkSum(i,j,buf);
+	        count++;  //形状的总数
+	        // sum.push(buf)
+	        sum.push({
+	            area: buf         //形状的面积
+	        });
+	       }
+	      }
+	    }
+	    return sum;
+		}
+		let temp1 = (transMap(newImgData))
+		console.log(getCountAndArea())
+	}
+	function getEtyNums (arr=[]) {
+		let i = 0, len = arr.length;
+		while (i < len || !arr[i]) {
+			if (arr[i] === undefined && arr[i + 1] === undefined) {
+				i ++
+			} else {
+				return i;
+			}
+		}
+		return undefined;
+	}
+	function getEtyMax (arr) {
+		let min = getEtyNums(arr[0]);
+		for (let i = 1, len = arr.length; i < len; i++) {
+			let etyLen = getEtyNums(arr[i]);
+			if (etyLen && (etyLen < min)) {
+				min = etyLen
+			}
+		}
+		return min;
+	}
+	function splitEty (arr) {
+		let min = getEtyMax(arr);
+		let tempArr = [];
+		for (let i = 0; i < arr.lengh; i++) {
+			tempArr.push(arr.slice(min+1))
+		}
+		return tempArr;
+	}
+
+</script>
