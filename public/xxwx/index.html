@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>量大通行码</title>
 	<style>
 		* {
 			margin: 0;
@@ -43,21 +43,34 @@
 			text-align: center;
 			font-family: -webkit-pictograph;
 		}
+		.form,
+		.form input,
+		.form button {
+			font-size: 44px;
+		}
+
 	</style>
 </head>
 <body>
+	
 	<div class="img-ctn">
 		<div class="info">
 			<ul>
 				<li>姓名：<span id="name">张鑫</span></li>
 				<li>学院：<span id="school">软件学院</span></li>
-				<li>班级：<span id="class">2018</span></li>
+				<li>班级：<span id="className">2018</span></li>
 			</ul>
 		</div>
 		<div class="time">
 			<p id="time1">8月10日</p>
 			<p id="time2">12:37:51</p>
 		</div>
+	</div>
+	<div class="form">
+		<p>姓名：<input type="text" id="nameval" ></p>
+		<p>学院：<input type="text" id="schoolval"></p>
+		<p>班级：<input type="text" id="classval"></p>
+		<button id="sureBtn">确定</button>
 	</div>
 <script>
 function addZero (a) {
@@ -70,14 +83,40 @@ function trans () {
 	$('#time2').innerHTML = addZero(date.getHours())+':'+addZero(date.getMinutes())+':'+addZero(date.getSeconds())
 }
 
-const nameNode = $('#name')
-const schoolNode = $('#school')
-const classNode = $('#class')
 
-trans()
-setInterval(function () {
+
+
+
+
+// 设置基本信息
+function setinfo () {
+	$('#name').innerHTML = localStorage.getItem("name");
+	$('#school').innerHTML = localStorage.getItem("school");
+	$('#className').innerHTML = localStorage.getItem("className");
+}
+
+
+$('#sureBtn').addEventListener('click', () => {
+	$('.img-ctn').style.display = 'none';
+	localStorage.setItem("name", $('#nameval').value);
+	localStorage.setItem("school", $('#schoolval').value);
+	localStorage.setItem("className", $('#classval').value);
+	setinfo();
+})
+
+startFnc()
+function startFnc () {
+	if (localStorage.getItem('name')) {
+		setinfo();
+		$('.img-ctn').style.display = 'block';
+	} else {
+		$('.img-ctn').style.display = 'none';
+	}
 	trans()
-}, 1000)
+	setInterval(function () {
+		trans()
+	}, 1000)
+}
 
 </script>
 </body>
