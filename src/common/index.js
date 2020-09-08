@@ -83,12 +83,19 @@ const getRandComments = () => {
 	return arr;
 }
 const getRandFace = (len) => {
+	if (len < 0) {
+		return [];
+	}
+	const max = faceArr.length;
+	const mmar = len - max;
+	len = mmar > 0 ? max : len;
+
   let a = faceArr.slice();
   let arr = [];
   for (let i = 0; i < len; i++) {
     arr.push(faceStaticUrl + a.splice(getRand(0, a.length), 1)[0])
   }
-  return arr;
+  return arr.concat(getRandFace(mmar));
 }
 
 

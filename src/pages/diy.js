@@ -21,7 +21,7 @@ class Homepage extends React.Component {
       <div>
       
         <div>
-          点赞头像个数:{avtorNum} <Slider min={5} defaultValue={avtorNum} onChange={avtorNum => this.setState({avtorNum})} />
+          点赞头像个数:{avtorNum} <Slider min={5} max={550} defaultValue={avtorNum} onChange={avtorNum => this.setState({avtorNum})} />
         </div>
         <AddContent />
         <Comment />
