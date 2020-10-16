@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="./1.css"> -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .heart-wrapper {
+      position: relative;
+    }
+
+    .heart-wrapper .heart-item {
+      float: left;
+      width: 5vw;
+      height: 5vw;
+      border: 1px solid #ccc;
+      position: absolute;
+      font-size: 12px;
+      text-align: center;
+      line-height: 5vw;
+    }
+
+    .heart-wrapper .heart-item.active {
+      background-color: orange;
+    }
+
+  </style>
+  <script src="./jquery.min.js"></script>
+  <!-- <script src="./container.js"></script> -->
+</head>
+<body>
+  <!-- <canvas width="1000" height="800" id="canvas"></canvas> -->
+  <p>
+    请点击这些不靠谱的字母（空格不在这里面），然后从左到右读取即可。<br>
+    <span id="span"></span><br>
+    <button id="button">点击提示</button>
+  </p>
+  <div class="heart-wrapper">
+    <div class="heart-item"></div>
+  </div>
+</body>
+</html>
+<script>
+var Container = function (obj) {
+  // console.log(obj)
+  this._$container = $(obj.container);
+  this.initCallback = obj.initCallback
+  this.init();
+}
+// 初始化
+Container.prototype.init = function () {
+  var _this = this;
+  // _this._$container.html(btntpl())
+  _this.initCallback && _this.initCallback.call(_this)
+}
+
+
+Container.prototype.on = function (eventType, cls, fn) {
+  var _this = this;
+  if (fn) {
+    _this._$container.on(eventType, cls, function (e) {
+      fn.call(_this, $(this), e)
+    })
+  } else {
+    fn = cls;
+    _this._$container.on(eventType, function (e) {
+      fn.call(_this, $(this), e)
+    })
+  }
+  
+}
+
+Container.prototype.find = function (cls) {
+  return this._$container.find(cls)
+}
+
+
+
+
+</script>
+<script>
+  
+
+var arr = JSON.parse(localStorage.getItem('arr')) || [
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,1,1,1,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0],
+  [0,0,0,1,1,1,1,1,0,0,1,1,0,1,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,1,0,1,0,0,0],
+  [0,0,0,1,1,1,1,1,0,0,1,0,0,1,0,0,0],
+  [0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0],
+  [0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0],
+  [0,0,0,1,1,1,1,1,0,1,0,0,1,1,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+];
+
+const words = 'Will you take me out Sunday?please!my dear xiaofu.'
+var map = {}
+words.split('').forEach(it => {
+  var m = it.toLowerCase();
+  if(/[a-z]/.test(m)) {
+    map[m] = true
+  }
+})
+
+const existArr = Object.keys(map).sort();
+
+
+const getRandWord = () => {
+  var r = Math.floor(Math.random() * 26);
+  // console.log(r)
+  const word = String.fromCharCode(97+r) + '';
+  if (words.indexOf(word) !== -1 && words.indexOf(word.toUpperCase()) !== -1) {
+    return getRandWord();
+  } else {
+    return word
+  }
+}
+
+var ctn = new Container({
+  container: 'body',
+  initCallback () {
+    var wh = 5;
+    var hstr = ''
+    let idx = 0;
+    arr.forEach((it, i) => it.forEach((flag, j) => {
+      hstr += `<div data-i="${i}" data-j=${j} style="left: ${wh * j}vw;top: ${wh * i}vw;" class="heart-item ${flag == 2 && 'active'}" >${flag == 1 ? words[idx++] : getRandWord()}</div>`
+    }))
+
+    this._$container.find('.heart-wrapper').html(hstr);
+
+    $('#span')[0].innerText = existArr.join(', ')
+  }
+})
+ctn.on('click', '#button', function () {
+  alert('别偷懒，(ૢ˃ꌂ˂ૢ)！')
+})
+
+ctn.on('click', '.heart-item', function ($ele) {
+  const i = $ele.data('i'), j = $ele.data('j');
+  arr[i][j] = 2;
+  // console.log(i,j)
+  $ele.toggleClass('active')
+  localStorage.setItem('arr', JSON.stringify(arr))
+  // this.innerText = 1
+})
+
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+/* var ctx = canvas.getContext('2d');
+var fontSize = 500;
+var l = '晓'
+ctx.font = 'bold ' + fontSize + 'px ' + 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
+console.log(fontSize, (canvas.width / ctx.measureText(l).width) * 0.8 * fontSize, (canvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize)
+
+var s = Math.min(fontSize, (canvas.width / ctx.measureText(l).width) * 0.8 * fontSize, (canvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize)
+ctx.font = 'bold ' + s + 'px ' + 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
+ctx.fillText(l, canvas.width / 2, canvas.height / 2);
+var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+console.log(pixels) */
+
+
+
+/* var arr = [];
+temp1.forEach((it, idx) => {
+  const r = Math.floor(idx / 40)
+  arr[r]  = arr[r] || []
+  arr[r].push(it)
+})
+ */
+
+
+
+
+</script>
