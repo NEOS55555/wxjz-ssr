@@ -38,10 +38,11 @@
 <body>
   <!-- <canvas width="1000" height="800" id="canvas"></canvas> -->
   <p>
-    请点击这些不靠谱的字母（空格不在这里面），然后从左到右读取即可。<br>
+    请点击这些字母，然后从左到右读取即可。<br>
     <span id="span"></span><br>
-    <button id="button">点击提示</button>
+    <button id="button">点击提示</button><button id="clear">清空</button>
   </p>
+  <br>
   <div class="heart-wrapper">
     <div class="heart-item"></div>
   </div>
@@ -107,7 +108,7 @@ var arr = JSON.parse(localStorage.getItem('arr')) || [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
 
-const words = 'Will you take me out Sunday?please!my dear xiaofu.'
+const words = 'willyoutakemeoutsunday?please!mydearxiaofu!ainiyo!'
 var map = {}
 words.split('').forEach(it => {
   var m = it.toLowerCase();
@@ -117,13 +118,22 @@ words.split('').forEach(it => {
 })
 
 const existArr = Object.keys(map).sort();
+const notArr = [];
+
+for (let i = 0; i < 26; i++) {
+  const word = String.fromCharCode(97+i) + '';
+  if (!map[word]) {
+    notArr.push(word)
+  }
+}
 
 
 const getRandWord = () => {
   var r = Math.floor(Math.random() * 26);
+  // return existArr[Math.floor(Math.random() * existArr.length)]
   // console.log(r)
   const word = String.fromCharCode(97+r) + '';
-  if (words.indexOf(word) !== -1 && words.indexOf(word.toUpperCase()) !== -1) {
+  if (map[word]) {
     return getRandWord();
   } else {
     return word
@@ -137,16 +147,27 @@ var ctn = new Container({
     var hstr = ''
     let idx = 0;
     arr.forEach((it, i) => it.forEach((flag, j) => {
-      hstr += `<div data-i="${i}" data-j=${j} style="left: ${wh * j}vw;top: ${wh * i}vw;" class="heart-item ${flag == 2 && 'active'}" >${flag == 1 ? words[idx++] : getRandWord()}</div>`
+      hstr += `
+        <div 
+          data-i="${i}" 
+          data-j=${j} 
+          style="left: ${wh * j}vw;top: ${wh * i}vw;" 
+          class="heart-item ${flag == 2 && 'active'}" 
+        >${flag == 1 ? words[idx++] : getRandWord()}</div>`
     }))
 
     this._$container.find('.heart-wrapper').html(hstr);
 
-    $('#span')[0].innerText = existArr.join(', ')
+    $('#span')[0].innerText = notArr.join(', ')
   }
 })
 ctn.on('click', '#button', function () {
   alert('别偷懒，(ૢ˃ꌂ˂ૢ)！')
+})
+ctn.on('click', '#clear', function () {
+  localStorage.clear()
+  location.reload()
+  // this.find('.hear-item').removeClass('active')
 })
 
 ctn.on('click', '.heart-item', function ($ele) {
@@ -162,13 +183,20 @@ ctn.on('click', '.heart-item', function ($ele) {
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
+function all () {
+  ctn.find('.heart-item').each((i, it) => {
+    var txt = $(it).text();
+    if (notArr.indexOf(txt) !== -1 ) {
+      $(it).addClass('active')
+    }
+  })
+}
 
 /* var ctx = canvas.getContext('2d');
 var fontSize = 500;
 var l = '晓'
 ctx.font = 'bold ' + fontSize + 'px ' + 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
 console.log(fontSize, (canvas.width / ctx.measureText(l).width) * 0.8 * fontSize, (canvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize)
-
 var s = Math.min(fontSize, (canvas.width / ctx.measureText(l).width) * 0.8 * fontSize, (canvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize)
 ctx.font = 'bold ' + s + 'px ' + 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
 ctx.fillText(l, canvas.width / 2, canvas.height / 2);
