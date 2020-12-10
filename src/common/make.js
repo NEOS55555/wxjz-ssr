@@ -215,11 +215,16 @@ function getImageData ({div, avtors=[], replyArr=[], targetImg, success, error})
 					return error && error('不是微信截图')
 				}
 				const lastReplyStarti = getContentStart(arr, contentStarti, true)
-				if (contentStarti === lastReplyStarti) {
+				if (Math.abs(contentStarti - lastReplyStarti) <= 10) {
 					// console.log('到底了，没有开始')
 					// 40： 获取到回复按钮的开始点
 					// 70： 右边回复按钮距离点赞的距离
+					// console.log(arr)
 					contentStarti = getStarti(arr) + 44 + 70;
+				}
+				if (!contentStarti) {
+					error && error('图片清晰度不够，请上传原图，以方便计算')
+					return;
 				}
 
 				console.log('计算花费：', new Date().getTime() - startTime1)
@@ -297,11 +302,17 @@ function isStartOk (arr, i) {
 	return i
 }
 function isGre (a) {
+	let f1 = a[0] <= 252 && a[0] >= 245
+	let f2 = a[1] <= 252 && a[1] >= 245
+	let f3 = a[2] <= 252 && a[2] >= 245
+	return f1 && f2 && f3
+}
+/*function isGre (a) {
 	let f1 = a[0] <= 248 && a[0] >= 248
 	let f2 = a[1] <= 248 && a[1] >= 248
 	let f3 = a[2] <= 248 && a[2] >= 248
 	return f1 && f2 && f3
-}
+}*/
 function isWhite (a) {
 	return a.join(',') === '255,255,255,255'
 }
